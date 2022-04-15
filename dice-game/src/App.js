@@ -1,10 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
+import Dices from './components/Dices';
 
 function App() {
   return (
     <div className="App">
-      
+      <Dices />
     </div>
   );
 }
