@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Dice = ({ diceValue }) => {
+const Dice = ({ diceNum }) => {
     return (
-        <i className={`fa-solid fas fa-dice-${diceValue}`}></i>
-    )
+        <i className={`fa-solid fas fa-dice-${diceNum}`}></i>
+    );
 }
 
 export default Dice;
