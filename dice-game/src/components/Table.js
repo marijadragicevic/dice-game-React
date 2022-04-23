@@ -14,18 +14,30 @@ const Table = () => {
         counterOne: 0,
         counterTwo: 0
     });
+    const [board, setBoard] = useState([]);
 
     const { diceValueOne, diceValueTwo } = diceValue;
     const { counterOne, counterTwo } = counter;
 
     const handleRoll = e => {
         e.preventDefault();
+        let br = 0;
 
-        let indexOne = Math.floor(Math.random() * 6);
-        let indexTwo = Math.floor(Math.random() * 6);
+        let roll = setInterval(() => {
 
-        setDiceValue({ diceValueOne: numbers[indexOne], diceValueTwo: numbers[indexTwo] });
-        setResult([...result, indexOne + indexTwo + 2]);
+            let indexOne = Math.floor(Math.random() * 6);
+            let indexTwo = Math.floor(Math.random() * 6);
+
+            setDiceValue({ diceValueOne: numbers[indexOne], diceValueTwo: numbers[indexTwo] });
+
+            if (br > 10) {
+                setResult([...result, indexOne + indexTwo + 2]);
+                setBoard([...board, index + indexTwo + 2]);
+                clearInterval(roll);
+            }
+
+        }, 100);
+
     }
 
     useEffect(() => {
@@ -44,12 +56,15 @@ const Table = () => {
         }
 
         if (counterOne === 5 || counterTwo === 5) {
-            setCounter({ counterOne: 0, counterTwo: 0 })
+            setTimeout(() => {
+                setCounter({ counterOne: 0, counterTwo: 0 });
+                setBoard([]);
+            }, 2000);
+
         }
 
     }, [result])
 
-    // console.log(result, counter.counterOne, counter.counterTwo, diceValue.diceValueOne, diceValue.diceValueTwo);
 
     return (
         <>
@@ -57,6 +72,11 @@ const Table = () => {
             <Score counter={counter} />
             <Dice diceNum={diceValueOne} />
             <Dice diceNum={diceValueTwo} />
+            {counterOne === 5
+                ? <h2>player 1 won!</h2>
+                : counterTwo === 5
+                    ? <h2>player 2 won!</h2>
+                    : <Score counterOne={counterOne} counterTwo={counterTwo} board={board} />}
             <br />
             <button onClick={handleRoll}>Roll Dices</button>
         </>
